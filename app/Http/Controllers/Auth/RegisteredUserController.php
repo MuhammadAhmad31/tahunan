@@ -29,7 +29,7 @@ class RegisteredUserController extends Controller
                 'name' => $school->name,
             ];
         }
-    
+
         return view('auth.register', ['schools' => $schoolProperties]);
     }
 
@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -50,8 +50,8 @@ class RegisteredUserController extends Controller
             'parent_name' => ['required', 'string', 'max:255'],
             'profile_photo_path' => ['required', 'file', 'max:5000'],
             'id_card_parent' => ['required', 'file', 'max:5000', 'mimes:jpeg,jpg,png,pdf'],
-            'id_family_card' => ['required', 'file', 'max:5000', 'mimes:jpeg,jpg,png,pdf'],            
-            'kip' => ['nullable', 'image', 'max:1024'],
+            'id_family_card' => ['required', 'file', 'max:5000', 'mimes:jpeg,jpg,png,pdf'],
+            'kip' => ['nullable', 'image', 'max:5000', 'mimes:jpeg,jpg,png,pdf'],
             'is_boarding' => ['required', 'boolean'],
         ]);
 
@@ -65,10 +65,10 @@ class RegisteredUserController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'nisn' => $request->nisn,
             'parent_name' => $request->parent_name,
-            'profile_photo_path' => $request->file('profile_photo_path') ? $request->file('profile_photo_path')->store('profile-photos') : null,
-            'id_card_parent' => $request->file('id_card_parent') ? $request->file('id_card_parent')->store('id-card-parents') : null,
-            'id_family_card' => $request->file('id_family_card') ? $request->file('id_family_card')->store('id-family-cards') : null,
-            'kip' => $request->file('kip') ? $request->file('kip')->store('kips') : null,
+            'profile_photo_path' => $request->file('profile_photo_path') ? $request->file('profile_photo_path')->store('profile-photos', 'public') : null,
+            'id_card_parent' => $request->file('id_card_parent') ? $request->file('id_card_parent')->store('id-card-parents', 'public') : null,
+            'id_family_card' => $request->file('id_family_card') ? $request->file('id_family_card')->store('id-family-cards', 'public') : null,
+            'kip' => $request->file('kip') ? $request->file('kip')->store('kips', 'public') : null,
             'is_boarding' => $request->is_boarding,
         ]);
 
@@ -76,6 +76,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('admin.dashboard', absolute: false));
     }
 }
