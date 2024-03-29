@@ -9,21 +9,12 @@ use Illuminate\Support\Facades\Session;
 
 class AdminDashboardController extends Controller
 {
-
-    protected $role;
-
     public function __construct()
     {
     }
 
     public function index()
     {
-        $data = [
-            'role' => Session::get('user_role'),
-        ];
-
-        // dd($data);
-
-        return view('admin.dashboard')->with($data);
+        return view('admin.dashboard');
     }
 }
