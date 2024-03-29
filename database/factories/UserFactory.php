@@ -24,11 +24,22 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'id' => date('YmdHis') . mt_rand(100, 999),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('admin'),
             'remember_token' => Str::random(10),
+            'role' => 'admin',
+            'nisn' => fake()->unique()->numerify('##############'),
+            'parent_name' => fake()->name(),
+            'id_school' => null,
+            'date_of_birth' => fake()->date(),
+            'profile_photo_path' => null,
+            'id_card_parent' => null,
+            'id_family_card' => null,
+            'kip' => null,
+            'is_boarding' => null,
         ];
     }
 
