@@ -18,7 +18,7 @@ class User
     {
         if (Auth::user()->role != 'user') {
 
-            return redirect('/user/dashboard');
+            return redirect('/admin/dashboard');
         }
 
         return $next($request);
