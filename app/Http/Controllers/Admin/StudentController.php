@@ -8,6 +8,7 @@ use App\Models\Admin\SchoolModel;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
@@ -84,7 +85,7 @@ class StudentController extends Controller
         $idSchool = $request->input('id_school');
         $isBoarding = $request->input('is_boarding');
 
-        $students = User::select('name', 'email', 'id_school', 'date_of_birth', 'nisn', 'parent_name', 'is_boarding')
+        $students = User::select('name', 'email', 'id_school', 'date_of_birth', 'nisn', 'parent_name', 'is_boarding', 'profile_photo_path', 'id_card_parent', 'id_family_card', 'kip')
             ->where('role', 'user')
             ->when($idSchool, function ($query) use ($idSchool) {
                 return $query->where('id_school', $idSchool);
@@ -105,6 +106,12 @@ class StudentController extends Controller
             // Mengubah status asrama menjadi teks yang sesuai
             $student->boarding_status = $student->is_boarding ? 'Asrama' : 'Non Asrama';
             unset($student->is_boarding);
+
+            // Mendapatkan URL gambar untuk setiap jenis gambar
+            $student->profile_photo_url = $student->profile_photo_path ? url(Storage::url($student->profile_photo_path)) : null;
+            $student->id_card_parent_url = $student->id_card_parent ? url(Storage::url($student->id_card_parent)) : null;
+            $student->id_family_card_url = $student->id_family_card ? url(Storage::url($student->id_family_card)) : null;
+            $student->kip_url = $student->kip ? url(Storage::url($student->kip)) : null;
         }
 
         return Excel::download(new StudentsExport($students), 'students.xlsx');
