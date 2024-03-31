@@ -62,7 +62,9 @@
 
                     <x-bladewind.table exclude_columns="id, marital_status" divider="thin" :action_icons="$action_icons"
                         :data="$students" has_border="true" no_data_message="The santri is empty"
-                        message_as_empty_state="true" searchable="true" search_placeholder="Cari santri" />
+                        message_as_empty_state="true" searchable="true" search_placeholder="Cari santri"
+                        compact="true" />
+
                 </div>
             </div>
         </div>

@@ -17,26 +17,26 @@ class StudentController extends Controller
         $idSchool = $request->input('id_school');
         $isBoarding = $request->input('is_boarding');
 
-        $userModel = User::select('id', 'name', 'email', 'id_school', 'date_of_birth', 'nisn', 'parent_name', 'is_boarding', 'profile_photo_path', 'id_card_parent', 'id_family_card', 'kip')
+        $query = User::select('id', 'name', 'email', 'id_school', 'date_of_birth', 'nisn', 'parent_name', 'is_boarding', 'profile_photo_path', 'id_card_parent', 'id_family_card', 'kip')
             ->where('role', 'user')
             ->when($idSchool, function ($query) use ($idSchool) {
                 return $query->where('id_school', $idSchool);
             })
             ->when($isBoarding !== null, function ($query) use ($isBoarding) {
                 return $query->where('is_boarding', $isBoarding);
-            })
-            ->get();
+            });
 
+        $userModel = $query->paginate(10); // Set jumlah data per halaman di sini
 
         $schools = SchoolModel::all();
-        $student = [];
-        $detailStudent = [];
+        $students = [];
+        $detailStudents = [];
 
         foreach ($userModel as $user) {
             $schoolName = SchoolModel::where('id', $user->id_school)->value('name');
             $boardingStatus = $user->is_boarding ? 'Asrama' : 'Non Asrama';
 
-            $student[] = [
+            $students[] = [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
@@ -47,7 +47,7 @@ class StudentController extends Controller
                 'asrama' => $boardingStatus,
             ];
 
-            $detailStudent[$user->id] = [
+            $detailStudents[$user->id] = [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
@@ -68,9 +68,9 @@ class StudentController extends Controller
         ];
 
         $data = [
-            'students' => $student,
+            'students' => $students,
             'action_icons' => $actionIcons,
-            'detail' => $detailStudent,
+            'detail' => $detailStudents,
             'schools' => $schools,
             'idSchool' => $idSchool,
             'isBoarding' => $isBoarding,
@@ -78,6 +78,7 @@ class StudentController extends Controller
 
         return view('admin.student')->with($data);
     }
+
 
     public function export(Request $request)
     {
@@ -101,6 +102,9 @@ class StudentController extends Controller
         foreach ($students as $student) {
             $student->school_name = SchoolModel::where('id', $student->id_school)->value('name');
             unset($student->id_school);
+
+            $student->boarding_status = $student->is_boarding ? 'Asrama' : 'Non Asrama';
+            unset($student->is_boarding);
         }
 
         return Excel::download(new StudentsExport($students), 'students.xlsx');

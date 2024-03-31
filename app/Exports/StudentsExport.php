@@ -23,13 +23,13 @@ class StudentsExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'Name',
+            'Nama',
             'Email',
-            'School ID',
-            'Date of Birth',
+            'Tanggal Lahir',
             'NISN',
-            'Parent Name',
-            'Boarding Status'
+            'Nama Orang Tua',
+            'Jenjang',
+            'Asrama',
         ];
     }
 }
