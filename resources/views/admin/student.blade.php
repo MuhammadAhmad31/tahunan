@@ -15,9 +15,10 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="flex items-center justify-between">
+                    <div class="grid-cols-1">
                         <form id="filterForm" action="{{ route('admin.student') }}" method="GET"
                             class="flex items-center gap-2 mt-4 mb-3">
+
                             <!-- Filter by School -->
                             <x-input-label for="id_school" class="block text-sm font-medium text-gray-700">Filter
                                 Jenjang:</x-input-label>
@@ -50,7 +51,7 @@
                             </div>
                         </form>
 
-                        <form action="{{ route('admin.student.export') }}" method="GET">
+                        <form action="{{ route('admin.student.export') }}" method="GET" class="mb-4">
                             <input type="hidden" name="id_school" value="{{ $idSchool }}">
                             <input type="hidden" name="is_boarding" value="{{ $isBoarding }}">
                             <button type="submit"
@@ -63,7 +64,7 @@
                     <x-bladewind.table exclude_columns="id, marital_status" divider="thin" :action_icons="$action_icons"
                         :data="$students" has_border="true" no_data_message="The santri is empty"
                         message_as_empty_state="true" searchable="true" search_placeholder="Cari santri"
-                        compact="true" />
+                        compact="ture" />
 
                 </div>
             </div>
