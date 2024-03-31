@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\StudentsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\SchoolModel;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -74,5 +77,32 @@ class StudentController extends Controller
         ];
 
         return view('admin.student')->with($data);
+    }
+
+    public function export(Request $request)
+    {
+        $idSchool = $request->input('id_school');
+        $isBoarding = $request->input('is_boarding');
+
+        $students = User::select('name', 'email', 'id_school', 'date_of_birth', 'nisn', 'parent_name', 'is_boarding')
+            ->where('role', 'user')
+            ->when($idSchool, function ($query) use ($idSchool) {
+                return $query->where('id_school', $idSchool);
+            })
+            ->when($isBoarding !== null, function ($query) use ($isBoarding) {
+                return $query->where('is_boarding', $isBoarding);
+            })
+            ->get();
+
+        if ($students->isEmpty()) {
+            return redirect()->back()->with('error', 'No data found for export.');
+        }
+
+        foreach ($students as $student) {
+            $student->school_name = SchoolModel::where('id', $student->id_school)->value('name');
+            unset($student->id_school);
+        }
+
+        return Excel::download(new StudentsExport($students), 'students.xlsx');
     }
 }

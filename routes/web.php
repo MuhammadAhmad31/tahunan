@@ -14,6 +14,7 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/student', [StudentController::class, 'index'])->name('admin.student');
     Route::get('/admin/student/detail/{id}', [StudentController::class, 'getStudentDetail'])->name('student.detail');
+    Route::get('/admin/student/export', [StudentController::class, 'export'])->name('admin.student.export');
 });
 
 Route::middleware('auth', 'user')->group(function () {
