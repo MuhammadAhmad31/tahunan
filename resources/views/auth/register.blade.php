@@ -2,9 +2,9 @@
     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
         @csrf
 
-        <!-- Name -->
 
-        <div>
+        <!-- Name -->
+        <div class="">
             <x-input-label for="name" :value="__('Nama Lengkap')" />
             <x-text-input id="name" class="block w-full mt-1" type="text" name="name" :value="old('name')" required
                 autofocus autocomplete="name" />
@@ -78,11 +78,13 @@
             <x-input-error :messages="$errors->get('parent_name')" class="mt-2" />
         </div>
 
+
+
         <!-- Profile Photo -->
         <div class="mt-4">
             <x-input-label for="profile_photo_path"
                 class="block text-sm font-medium text-gray-700">{{ __('Pas Photo 4/6') }}</x-input-label>
-            <x-bladewind.filepicker name="proof_of_payment" required="true" placeholder="Upload proof of payment" />
+            <x-bladewind.filepicker name="profile_photo_path" required="true" placeholder="Upload foto" />
             <x-input-error :messages="$errors->get('profile_photo_path')" class="mt-2" />
         </div>
 
@@ -90,7 +92,7 @@
         <div class="mt-4">
             <x-input-label for="id_card_parent"
                 class="block text-sm font-medium text-gray-700">{{ __('ID Card of Parent') }}</x-input-label>
-            <input id="id_card_parent" type="file" name="id_card_parent" accept="image/*" class="block w-full mt-1">
+            <x-bladewind.filepicker name="id_card_parent" required="true" placeholder="Upload KTP Orang Tua" />
             <x-input-error :messages="$errors->get('id_card_parent')" class="mt-2" />
         </div>
 
@@ -98,7 +100,7 @@
         <div class="mt-4">
             <x-input-label for="id_family_card"
                 class="block text-sm font-medium text-gray-700">{{ __('ID Family Card') }}</x-input-label>
-            <input id="id_family_card" type="file" name="id_family_card" accept="image/*" class="block w-full mt-1">
+            <x-bladewind.filepicker name="id_family_card" required="true" placeholder="Upload Kartu Keluarga" />
             <x-input-error :messages="$errors->get('id_family_card')" class="mt-2" />
         </div>
 
@@ -106,7 +108,7 @@
         <div class="mt-4">
             <x-input-label for="kip"
                 class="block text-sm font-medium text-gray-700">{{ __('KIP (Jika Ada)') }}</x-input-label>
-            <input id="kip" type="file" name="kip" accept="image/*" class="block w-full mt-1">
+            <x-bladewind.filepicker name="kip" placeholder="Upload KIP" />
             <x-input-error :messages="$errors->get('kip')" class="mt-2" />
         </div>
 
