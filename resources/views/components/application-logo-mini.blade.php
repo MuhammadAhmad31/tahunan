@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="45mm" height="50mm" version="1.1"
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="17mm" height="23mm" version="1.1"
     style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
     viewBox="0 0 16517 15763" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>

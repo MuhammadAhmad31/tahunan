@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Admin\SchoolModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +17,25 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $schools = SchoolModel::all();
+        $schoolProperties = [];
+
+        foreach ($schools as $school) {
+            $schoolProperties[] = [
+                'id' => $school->id,
+                'name' => $school->name,
+            ];
+        }
+
+        $oldSchoolId = $request->user()->id_school;
+
         return view('profile.edit', [
             'user' => $request->user(),
+            'schools' => $schoolProperties,
+            'oldSchoolId' => $oldSchoolId,
         ]);
     }
+
 
     /**
      * Update the user's profile information.

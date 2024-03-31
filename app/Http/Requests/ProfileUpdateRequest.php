@@ -18,6 +18,11 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'nisn' => ['required', 'string', 'max:255'],
+            'parent_name' => ['required', 'string', 'max:255'],
+            // 'date_of_birth' => ['required', 'date'],
+            'id_school' => ['required', 'string', 'max:255'],
+            'is_boarding' => ['required', 'boolean'],
         ];
     }
 }

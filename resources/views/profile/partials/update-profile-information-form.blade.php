@@ -24,6 +24,50 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
+        @if (Session::get('user_role') == 'user')
+            <div>
+                <x-input-label for="nisn" :value="__('Nisn')" />
+                <x-text-input id="nisn" name="nisn" type="text" class="block w-full mt-1" :value="old('nisn', $user->nisn)"
+                    required autocomplete="nisn" />
+                <x-input-error class="mt-2" :messages="$errors->get('nisn')" />
+            </div>
+
+            <div>
+                <x-input-label for="parent_name" :value="__('Parent_Name')" />
+                <x-text-input id="parent_name" name="parent_name" type="text" class="block w-full mt-1"
+                    :value="old('parent_name', $user->parent_name)" required autocomplete="parent_name" />
+                <x-input-error class="mt-2" :messages="$errors->get('parent_name')" />
+            </div>
+
+            <div>
+                <x-input-label for="id_school" :value="__('School')" />
+                <select id="id_school" name="id_school" class="block w-full mt-1">
+                    @foreach ($schools as $school)
+                        <option value="{{ $school['id'] }}" @if ($oldSchoolId == $school['id']) selected @endif>
+                            {{ $school['name'] }}
+                        </option>
+                    @endforeach
+                </select>
+                <x-input-error class="mt-2" :messages="$errors->get('id_school')" />
+            </div>
+
+            <div>
+                <x-input-label for="date_of_birth" :value="__('Date of Birth')" />
+                <input id="date_of_birth" type="date" name="date_of_birth" class="block w-full mt-1"
+                    value="{{ old('date_of_birth', $user->date_of_birth ?? '') }}" />
+                <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
+            </div>
+
+            <div class="mt-4">
+                <x-input-label for="is_boarding" :value="__('Asrama / Non Asrama')" />
+                <select id="is_boarding" name="is_boarding" class="block w-full mt-1">
+                    <option value="1" {{ $user->is_boarding ? 'selected' : '' }}>Asrama</option>
+                    <option value="0" {{ !$user->is_boarding ? 'selected' : '' }}>Non Asrama</option>
+                </select>
+                <x-input-error class="mt-2" :messages="$errors->get('is_boarding')" />
+            </div>
+        @endif
+
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="block w-full mt-1" :value="old('email', $user->email)"
